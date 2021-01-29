@@ -4,7 +4,7 @@
 <!-- nav bar -->
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand bold two-rem" href="#">Foodie Club</a>
+            <a class="navbar-brand bold two-rem" href="#">Git Club</a>
            
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -38,27 +38,23 @@
 
 <div class="container pm-zero"> 
   <div class="row">
-    <div class="col-2 feature-col">
+    <div class="col-3 feature-col">
       <p>first</p>
     </div>
-   
-    <div class="col-10 item-col">
-       <!-- each items -->
-
-
+    <!-- each items -->
+  <%  itemsFound.forEach(function(res){%>
+      <div class="col-3 item-col">
         <div class="item-container">
-             <div class="image-container">
-           <img class="item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/07/64/c5/eb/pizz-traiteur-pizzeria.jpg" alt="pizza-image">
-             </div>
-             <p class="item-name pm-zero">Pizza</p>
-             <p class="price pm-zero">Price:120₹</p>
-        </div>
-        
-
-
-
-    </div>
-  </div>
+               <div class="image-container">
+             <img class="item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/07/64/c5/eb/pizz-traiteur-pizzeria.jpg" alt="pizza-image">
+               </div>
+               <p class="item-name pm-zero"><%= res.name %></p>
+               <p class="price pm-zero"><%= res.price%>₹</p>
+          </div>
+      </div>
+    <%})%>
+  
+ </div>
 </div>
 
        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

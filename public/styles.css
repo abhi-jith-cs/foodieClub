@@ -15,15 +15,11 @@ margin: 0;
 padding: 0;
 }
 .feature-col{
-    border: var(--first) solid 0.1rem;
+    height: 100%;
 }
-.item-col{
-    border: var(--first) solid 0.1rem;
-    border-left: 0;
-}
+
 /* each items */
 .item-container{
-    width: 30%;
     padding: .2rem;
     background-color: var(--first);
     border-radius: 1rem;
