@@ -21,9 +21,25 @@ app.set("view engine","ejs");
 
 //home route
 app.get("/",(req,res)=>{
+ 
   Items.find(function(err,itemsFound){
+    const slicedArray=[]
+    let start =0;
+    for(let i=3;start<itemsFound.length;i=i+3){
+      if(itemsFound.length>=i){
+      slicedArray.push(itemsFound.slice(start,i));
+      start=start+3;
+      }else{
+        slicedArray.push(itemsFound.slice(start,itemsFound.length));
+        start=start+3;
+      }
+    }
+   console.log(slicedArray)
+    // itemsFound.forEach(item => {
+    //   console.log(Math.round(itemsFound.length/3));
+    // });
       if(!err){
-        res.render("home",{itemsFound:itemsFound});
+        res.render("home",{itemsFound:slicedArray});
       }
     
   })
