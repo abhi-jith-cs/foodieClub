@@ -3,7 +3,7 @@
 
 <!-- nav bar -->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+        <nav class="navbar navbar-expand-lg navbar-light nav-color ">
             <a class="navbar-brand bold two-rem" href="#">Git Club</a>
            
             <form class="form-inline my-2 my-lg-0">
@@ -36,7 +36,7 @@
 
 <!-- gird  -->
 
-<div class="container pm-zero"> 
+<div class="container"> 
  
     <!-- each items -->
   
@@ -45,20 +45,20 @@
   <div class="row">
 
     <%   res.forEach(item=>{ %>
-      <div class="col-4 border pm-zero">
+      <div class="col-4 pm-zero">
         <div class="item-container">
                <div class="image-container">
-             <img class="item-image" src="https://media-cdn.tripadvisor.com/media/photo-s/07/64/c5/eb/pizz-traiteur-pizzeria.jpg" alt="pizza-image">
+             <img class="item-image" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2020-audi-rs7-112-1569274021.jpg?crop=0.735xw:0.673xh;0.141xw,0.270xh&resize=480:*" alt="pizza-image">
                </div>
                <p class="item-name pm-zero"><%= item.name %></p>
                <p class="price pm-zero"><%= item.price%>₹</p>
           </div>
       </div>
       <%}) %>
-      
+    </div>
     <%})%>
   
- </div>
+
 </div>
 
 
