@@ -21,6 +21,14 @@ padding: 0;
 }
 
 /* nav bar */
+.search-btn{
+    color: var(--fourth);
+    background-color: var(--first);
+    font-weight: 500;
+}
+
+.first-color{
+color: var(--first) !important;}
 
 .nav-color{
     background-color: var(--fourth);
@@ -58,6 +66,30 @@ font-size: .8rem;
     font-size: .8rem;
 
 }
+
+/* form */
+
+.form-container{
+    background-color:  var(--first);
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.signup-heading{
+    color: var(--fourth);
+    font-weight:700 ;
+padding-bottom: 2rem;
+}
+.signup-label{
+    color: var(--fourth);
+    font-weight: 500;
+}
+.signup-btn{
+    background-color: var(--fourth);
+    color: var(--first);
+}
+
 @media (min-width: 576px){
 .container {
     max-width: 100%;

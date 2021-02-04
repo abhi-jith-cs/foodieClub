@@ -34,10 +34,6 @@ app.get("/",(req,res)=>{
         start=start+3;
       }
     }
-   console.log(slicedArray)
-    // itemsFound.forEach(item => {
-    //   console.log(Math.round(itemsFound.length/3));
-    // });
       if(!err){
         res.render("home",{itemsFound:slicedArray});
       }
@@ -45,6 +41,20 @@ app.get("/",(req,res)=>{
   })
     
 })
+
+// signup route
+app.get("/signup",(req,res)=>{
+res.render("signup")
+})
+
+// signup route
+
+
+app.get("/signin",(req,res)=>{
+  res.render("signin")
+  })
+
+
 
 app.listen(3000,()=>{
 console.log("Server is Up and Running");
