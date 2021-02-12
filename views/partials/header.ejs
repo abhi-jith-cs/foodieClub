@@ -25,11 +25,17 @@
             <div class="collapse navbar-collapse bold" id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto ">
                 <li class="nav-item">
-                  <a class="nav-link first-color" href="/signup">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link first-color" href="/signin">Sign In</a>
-                </li>
+                  <% if(!auth){ %>
+                    <a class="nav-link first-color" href="/signup">Sign Up</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link first-color" href="/signin">Sign In</a>
+                  </li>
+                  <% }else{ %>
+                     <li class="nav-item">
+                      <a class="nav-link first-color" href="/account">Account</a>
+                    </li>
+                    <% } %>
                 <li class="nav-item ">
                   <a class="nav-link first-color " href="#">Cart</a>
                 </li>

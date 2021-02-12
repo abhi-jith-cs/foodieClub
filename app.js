@@ -58,7 +58,7 @@ const Items= new mongoose.model("item",itemSchema);
 
 //home route
 app.get("/",(req,res)=>{
- 
+ console.log(req.isAuthenticated())
   Items.find(function(err,itemsFound){
     const slicedArray=[]
     let start =0;
@@ -72,7 +72,7 @@ app.get("/",(req,res)=>{
       }
     }
       if(!err){
-        res.render("home",{itemsFound:slicedArray});
+        res.render("home",{itemsFound:slicedArray,auth:req.isAuthenticated()});
       }
     
   })
@@ -81,7 +81,7 @@ app.get("/",(req,res)=>{
 
 // signup route
 app.get("/signup",(req,res)=>{
-res.render("signup")
+res.render("signup",{auth:req.isAuthenticated()})
 })
 
 
@@ -107,7 +107,7 @@ if(err){
 
 
 app.get("/signin",(req,res)=>{
-  res.render("signin")
+  res.render("signin",{auth:req.isAuthenticated()})
   })
 
 
@@ -124,11 +124,18 @@ app.post("/signin",function(req,res){
          passport.authenticate("local")(req,res,function(){
              console.log("logedin");
              res.redirect("/");
+
+             
          })
         }
     })
  
  });
+
+ // account route
+ app.get("/account",(req,res)=>{
+   res.render("account",{auth:req.isAuthenticated()});
+ })
 
 
 app.listen(3000,()=>{
