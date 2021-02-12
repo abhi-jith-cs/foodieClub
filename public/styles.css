@@ -28,8 +28,14 @@ padding: 0;
 }
 
 .first-color{
-color: var(--first) !important;}
+color: var(--first) !important;
+}
 
+
+.first-color:hover{
+    color: var(--third) !important;
+
+}
 .nav-color{
     background-color: var(--fourth);
 }
