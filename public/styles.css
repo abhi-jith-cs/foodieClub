@@ -73,11 +73,22 @@ font-size: .8rem;
 
 }
 
+
+
+
+
+
 /* form */
 
+
+
+
+
+
+
 .form-container{
+    height: 100%;
     background-color:  var(--first);
-    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -32,7 +32,10 @@ mongoose.set('useCreateIndex', true);
 
 const userSchema = new mongoose.Schema({
   email:String,
-  password:String
+  password:String,
+  firstName:String,
+  lastName:String,
+  dob:Date
 });
 userSchema.plugin(passportLocalMongoose);
 
@@ -87,13 +90,21 @@ res.render("signup",{auth:req.isAuthenticated()})
 
 
 app.post("/signup",function(req,res){
-  console.log("evocked")
+
   User.register({username:req.body.username}, req.body.password, function(err, user) {
 if(err){
   console.log(err);
   res.redirect("/signup");
 }else{
   console.log("signup else")
+
+User.findOneAndUpdate({username:req.body.username},{firstName:req.body.firstName,
+  lastName:req.body.lastName,
+  dob:req.body.dob},(err)=>{
+if(!err){
+console.log("successfully added user")
+}
+})
   passport.authenticate("local")(req,res,function(){
       console.log("test");
       res.redirect("/");
@@ -134,7 +145,7 @@ app.post("/signin",function(req,res){
 
  // account route
  app.get("/account",(req,res)=>{
-   res.render("account",{auth:req.isAuthenticated()});
+   res.render("account",{auth:req.isAuthenticated(),user:req.user});
  })
 
 
