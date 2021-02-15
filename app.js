@@ -16,9 +16,9 @@ const fs = require('fs')
 const app = express();
 
 
-const imageSchema = new mongoose.Schema({
+const itemsSchema = new mongoose.Schema({
   name: String,
-  desc: String,
+  price: String,
   img:
   {
       data: Buffer,
@@ -26,7 +26,7 @@ const imageSchema = new mongoose.Schema({
   }
 });
 
-const imgModel = mongoose.model('Image', imageSchema);
+const Item = mongoose.model('item', itemsSchema);
 
 
 var storage = multer.diskStorage({
@@ -79,12 +79,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-const itemSchema = new mongoose.Schema({
-    name:String,
-    price:Number
 
-});
-const Items= new mongoose.model("item",itemSchema);
 
 
 
@@ -95,7 +90,7 @@ const Items= new mongoose.model("item",itemSchema);
 //home route
 app.get("/",(req,res)=>{
  console.log(req.isAuthenticated())
-  Items.find(function(err,itemsFound){
+  Item.find(function(err,itemsFound){
     const slicedArray=[]
     let start =0;
     for(let i=3;start<itemsFound.length;i=i+3){
@@ -205,13 +200,13 @@ app.post('/admin', upload.single('image'), (req, res, next) => {
 
 	var obj = {
 		name: req.body.name,
-		desc: req.body.desc,
+		price:req.body.price,
 		img: {
 			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
 			contentType: 'image/png'
 		}
 	}
-	imgModel.create(obj, (err, item) => {
+	Item.create(obj, (err, item) => {
 		if (err) {
 			console.log(err);
 		}
