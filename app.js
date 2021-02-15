@@ -5,10 +5,43 @@ const mongoose = require('mongoose');
 const session =require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs')
+
+
 
 
 
 const app = express();
+
+
+const imageSchema = new mongoose.Schema({
+  name: String,
+  desc: String,
+  img:
+  {
+      data: Buffer,
+      contentType: String
+  }
+});
+
+const imgModel = mongoose.model('Image', imageSchema);
+
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage })
+
+
+
 
 
 app.set("view engine","ejs");
@@ -142,6 +175,56 @@ app.post("/signin",function(req,res){
     })
  
  });
+
+
+// admin 
+app.get("/admin",(req,res)=>{
+
+  if(req.user){
+
+    if(req.user._id=="602894313d399931843b17b8"){
+      res.render("admin",{auth:req.isAuthenticated()});
+    }
+    else{
+      res.send("You don't have access to this page")
+    }
+  
+
+  }else{
+    res.redirect("signin")
+  }
+ 
+
+
+})
+
+
+// Step 8 - the POST handler for processing the uploaded file
+
+app.post('/admin', upload.single('image'), (req, res, next) => {
+
+	var obj = {
+		name: req.body.name,
+		desc: req.body.desc,
+		img: {
+			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+			contentType: 'image/png'
+		}
+	}
+	imgModel.create(obj, (err, item) => {
+		if (err) {
+			console.log(err);
+		}
+		else {
+      console.log("image saved to db")
+			// item.save();
+			res.redirect('/');
+		}
+	});
+});
+
+
+
 
  // account route
  app.get("/account",(req,res)=>{
