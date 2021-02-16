@@ -225,7 +225,10 @@ app.post('/admin', upload.single('image'), (req, res, next) => {
  app.get("/account",(req,res)=>{
    res.render("account",{auth:req.isAuthenticated(),user:req.user});
  })
-
+//cart
+app.get("/cart",(req,res)=>{
+  res.render("cart",{auth:req.isAuthenticated()});
+})
 
 app.listen(3000,()=>{
 console.log("Server is Up and Running");

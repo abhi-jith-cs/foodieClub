@@ -58,6 +58,7 @@ color: var(--first) !important;
 }
 .item-image{
     width: 95%;
+    height: 12em;
     border-radius: .5em;
     margin-top: 1em;    
 }
@@ -80,32 +81,9 @@ font-size: .8rem;
 
 /* form */
 
-/* filepicker */
-#customFile .custom-file-input:lang(en)::after {
-    content: "Select file...";
+.container{
+    min-height: 100%;
 }
-#customFile .custom-file-input:lang(en)::before {
-    content: "Click me";
-}
-.custom-file-input.selected:lang(en)::after {
-    content: "" !important;
-}
-.custom-file {
-    overflow: hidden;
-}
-
-.custom-file-input {
-    white-space: nowrap;
-}
-/* filepicker */
-
-
-
-
-
-
-
-
 
 .form-container{
     height: 100%;
@@ -128,6 +106,52 @@ padding-bottom: 2rem;
     color: var(--first);
 }
 
+/* footer */
+
+.footer{
+    width: 100%;
+    height: 4em;
+    background-color: var(--fourth);
+    font-size: .8rem;
+    color: var(--first);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+}
+.footer-text{
+    padding: 0;
+    margin: 0;
+}
+
+/* cart item card */
+
+.cart-container{
+    padding: 1rem;
+    background-color: var(--third);
+
+}
+
+.card{
+    background-color: var(--first);
+    
+}
+.card-header{
+    font-size: 1.2rem;
+font-weight: 700;
+color: var(--fourth);
+}
+.card-title{
+    color: var(--fourth);
+
+}
+.btn-cart{
+    background-color: var(--fourth);
+    color: var(--first);
+}
+.btn-cart:hover{
+    color: var(--third);
+}
 @media (min-width: 576px){
 .container {
     max-width: 100%;
