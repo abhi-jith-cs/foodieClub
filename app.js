@@ -7,13 +7,15 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
+const { runInNewContext } = require("vm");
 
 
 
 
 
 const app = express();
+
 
 
 const itemsSchema = new mongoose.Schema({
@@ -27,6 +29,14 @@ const itemsSchema = new mongoose.Schema({
 });
 
 const Item = mongoose.model('item', itemsSchema);
+
+const cartSchema = new mongoose.Schema({
+  cartItem:[itemsSchema],
+  quantity:Number
+});
+
+
+
 
 
 var storage = multer.diskStorage({
@@ -68,7 +78,8 @@ const userSchema = new mongoose.Schema({
   password:String,
   firstName:String,
   lastName:String,
-  dob:Date
+  dob:Date,
+  cart:cartSchema
 });
 userSchema.plugin(passportLocalMongoose);
 
@@ -177,7 +188,7 @@ app.get("/admin",(req,res)=>{
 
   if(req.user){
 
-    if(req.user._id=="602894313d399931843b17b8"){
+    if(req.user._id=="602cc33e83c6dc0d902d65c6"){
       res.render("admin",{auth:req.isAuthenticated()});
     }
     else{
@@ -226,9 +237,73 @@ app.post('/admin', upload.single('image'), (req, res, next) => {
    res.render("account",{auth:req.isAuthenticated(),user:req.user});
  })
 //cart
-app.get("/cart",(req,res)=>{
-  res.render("cart",{auth:req.isAuthenticated()});
+app.post("/cart",(req,res)=>{
+  if(req.isAuthenticated()){
+    const dataToPush = {
+      name:req.body.name,
+      price:req.body.price
+    }
+  
+    User.findOneAndUpdate(
+      { _id: req.user._id}, 
+      {cart:{ $push: { cartItem: dataToPush  } }},
+     function (error, success) {
+           if (error) {
+               console.log(error);
+           } else {
+               console.log("success");
+           }
+       });
+   
+  }
+  else{
+    console.log("user is not authenticated")
+    res.render("signin",{auth:req.isAuthenticated()})
+  }
 })
+
+
+
+  
+
+
+    // User.findById(req.user._id,(err,userData)=>{
+    //   userData.cart.cartItem.push(dataToPush);
+    //   User.save();
+    //   res.render("cart",{auth:req.isAuthenticated(),item:userData.cart.cartItem});
+
+    // })
+
+    // User.findByIdAndUpdate(req.user._id,update,{useFindAndModify: false},(err)=>{
+    //   if(err){
+    //     console.log("error adding cart to user")
+    // }
+    // })
+
+
+
+    // User.findById(req.user._id,(err,userData)=>{
+    //   console.log(userData.cart.cartItem)
+    // })
+
+
+
+
+
+ 
+  // const cart1=new cart({
+  //   item:{
+  //     name:req.body.name,
+  //     price:req.body.price    },
+  //   quantity:1
+  // });
+  // cart1.save((err)=>{
+  //   if(!err){
+  //     console.log("success with cart");
+  //   }else{
+  //     console.log("err cart")
+  //   }
+  // })
 
 app.listen(3000,()=>{
 console.log("Server is Up and Running");

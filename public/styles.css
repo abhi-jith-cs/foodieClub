@@ -63,15 +63,30 @@ color: var(--first) !important;
     margin-top: 1em;    
 }
 .item-name{
+    color: var(--fourth);
+    font-weight: 700;
 line-height: 1rem ;
 font-size: .8rem;
 
 
 }
 .price{
+    color: var(--fourth);
+
+    font-weight: 700;
     line-height: 1rem;
     font-size: .8rem;
 
+}
+.btn-card{
+    font-size: .7rem;
+    color: var(--first);
+    background-color: var(--fourth);
+}
+.card-items{
+    display: flex;
+    justify-content: space-evenly;
+    padding: .8rem 0;
 }
 
 
@@ -152,6 +167,17 @@ color: var(--fourth);
 .btn-cart:hover{
     color: var(--third);
 }
+
+/* table */
+.table{
+    text-align: center;
+}
+.total{
+    border-top:  var(--third) solid .1rem;
+    padding-top: 1rem;
+}
+
+
 @media (min-width: 576px){
 .container {
     max-width: 100%;

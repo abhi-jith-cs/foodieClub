@@ -16,14 +16,29 @@
 
     <%   res.forEach(item=>{ %>
       <div class="col-4 pm-zero">
+        <form action="/cart" method="POST"> 
         <div class="item-container">
                <div class="image-container">
              <img class="item-image" src="data:image/<%=item.img.contentType%>;base64,
              <%=item.img.data.toString('base64')%>" alt="pizza-image">
                </div>
-               <p class="item-name pm-zero"><%= item.name %></p>
-               <p class="price pm-zero"><%= item.price%>₹</p>
+               <div class="card-items">
+               <div class="btn-container">
+                <button type="submit" class="btn btn-card" >Buy</button>
+                </div>
+               <div> 
+               <p  class="item-name pm-zero"><%= item.name %></p>
+               <p  class="price pm-zero"><%= item.price%>₹</p>
+             <input type="hidden" name="name" value="<%= item.name %>">
+             <input type="hidden" name="price" value="<%= item.price %>">
+
+            </div>
+               <div class="btn-container">
+                 <button type="submit" class="btn btn-card">Add to Cart</button>
+               </div>
+              </div>
           </div>
+        </form>
       </div>
       <%}) %>
     </div>
