@@ -8,7 +8,6 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { runInNewContext } = require("vm");
 
 
 
@@ -25,7 +24,9 @@ const itemsSchema = new mongoose.Schema({
   {
       data: Buffer,
       contentType: String
-  }
+  },
+  quantity:Number
+
 });
 
 const Item = mongoose.model('item', itemsSchema);
@@ -139,7 +140,9 @@ if(err){
 
 User.findOneAndUpdate({username:req.body.username},{firstName:req.body.firstName,
   lastName:req.body.lastName,
-  dob:req.body.dob},(err)=>{
+  dob:req.body.dob,
+  cart:cartSchema,
+},(err)=>{
 if(!err){
 console.log("successfully added user")
 }
@@ -188,7 +191,7 @@ app.get("/admin",(req,res)=>{
 
   if(req.user){
 
-    if(req.user._id=="602cc33e83c6dc0d902d65c6"){
+    if(req.user._id=="602f5e5525f93d095c5b9856"){
       res.render("admin",{auth:req.isAuthenticated()});
     }
     else{
@@ -205,7 +208,6 @@ app.get("/admin",(req,res)=>{
 })
 
 
-// Step 8 - the POST handler for processing the uploaded file
 
 app.post('/admin', upload.single('image'), (req, res, next) => {
 
@@ -237,23 +239,54 @@ app.post('/admin', upload.single('image'), (req, res, next) => {
    res.render("account",{auth:req.isAuthenticated(),user:req.user});
  })
 //cart
+app.get("/cart",(req,res)=>{
+  if(req.isAuthenticated()){
+    User.findById(req.user._id,(err,user)=>{
+      if(!err){
+       res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem
+       })
+      }else{
+        console.log(err)
+      }
+    })
+  }else{
+    res.redirect("/signin")
+  }
+ 
+})
+
+
+
 app.post("/cart",(req,res)=>{
   if(req.isAuthenticated()){
     const dataToPush = {
       name:req.body.name,
-      price:req.body.price
+      price:req.body.price,
+      quantity:1
     }
+    User.findById(req.user._id,(err,data)=>{
+      console.log(data.cart)
+    
+    data.cart.cartItem.push(dataToPush);
+   data.save((err)=>{
+     if(!err){
+       console.log("success");
+     }else{
+       console.log(err)
+     }
+   })
+   }).then(()=>
+   User.findById(req.user._id,(err,user)=>{
+     if(!err){
+      res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem
+      })
+     }else{
+       console.log(err)
+     }
+   })
+   )
   
-    User.findOneAndUpdate(
-      { _id: req.user._id}, 
-      {cart:{ $push: { cartItem: dataToPush  } }},
-     function (error, success) {
-           if (error) {
-               console.log(error);
-           } else {
-               console.log("success");
-           }
-       });
+
    
   }
   else{
@@ -263,47 +296,12 @@ app.post("/cart",(req,res)=>{
 })
 
 
+// logout
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
-  
-
-
-    // User.findById(req.user._id,(err,userData)=>{
-    //   userData.cart.cartItem.push(dataToPush);
-    //   User.save();
-    //   res.render("cart",{auth:req.isAuthenticated(),item:userData.cart.cartItem});
-
-    // })
-
-    // User.findByIdAndUpdate(req.user._id,update,{useFindAndModify: false},(err)=>{
-    //   if(err){
-    //     console.log("error adding cart to user")
-    // }
-    // })
-
-
-
-    // User.findById(req.user._id,(err,userData)=>{
-    //   console.log(userData.cart.cartItem)
-    // })
-
-
-
-
-
- 
-  // const cart1=new cart({
-  //   item:{
-  //     name:req.body.name,
-  //     price:req.body.price    },
-  //   quantity:1
-  // });
-  // cart1.save((err)=>{
-  //   if(!err){
-  //     console.log("success with cart");
-  //   }else{
-  //     console.log("err cart")
-  //   }
-  // })
 
 app.listen(3000,()=>{
 console.log("Server is Up and Running");

@@ -83,6 +83,10 @@ font-size: .8rem;
     color: var(--first);
     background-color: var(--fourth);
 }
+
+.btn-card:hover{
+    color: var(--third);
+}
 .card-items{
     display: flex;
     justify-content: space-evenly;
@@ -166,6 +170,10 @@ color: var(--fourth);
 }
 .btn-cart:hover{
     color: var(--third);
+}
+.cart-btns{
+    display: flex;
+    justify-content: space-around;
 }
 
 /* table */
