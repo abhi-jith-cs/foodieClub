@@ -45,11 +45,12 @@ color: var(--first) !important;
 /* each item */
 .container{
     background-color: var(--third);
+    
+    
 }
 
 .item-container{
     margin: .2em;
-    padding: .2em;
     background-color: var(--first);
     border-radius: 1em;
     overflow: hidden;
@@ -183,8 +184,14 @@ color: var(--fourth);
 .total{
     border-top:  var(--third) solid .1rem;
     padding-top: 1rem;
+    color: var(--fourth);
+    font-weight: 700;
 }
 
+/* account */
+.account{
+    height: 90%;
+}
 
 @media (min-width: 576px){
 .container {

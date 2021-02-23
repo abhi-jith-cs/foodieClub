@@ -33,7 +33,7 @@ const Item = mongoose.model('item', itemsSchema);
 
 const cartSchema = new mongoose.Schema({
   cartItem:[itemsSchema],
-  quantity:Number
+  total:Number
 });
 
 
@@ -191,7 +191,7 @@ app.get("/admin",(req,res)=>{
 
   if(req.user){
 
-    if(req.user._id=="602f5e5525f93d095c5b9856"){
+    if(req.user._id=="60349145cfa13136c8e92ee7"){
       res.render("admin",{auth:req.isAuthenticated()});
     }
     else{
@@ -258,6 +258,9 @@ app.get("/cart",(req,res)=>{
 
 
 app.post("/cart",(req,res)=>{
+  let flag;
+  let index;
+  let price = req.body.price
   if(req.isAuthenticated()){
     const dataToPush = {
       name:req.body.name,
@@ -265,20 +268,43 @@ app.post("/cart",(req,res)=>{
       quantity:1
     }
     User.findById(req.user._id,(err,data)=>{
-      console.log(data.cart)
-    
+      (data.cart.cartItem).forEach((element,i)=> {
+      if (element.name===req.body.name){
+      flag=true;
+      index=i;
+      return;
+      }
+      });   
+      console.log(flag)
+      if(!flag){
+        //Item dont exist so add to cart 
     data.cart.cartItem.push(dataToPush);
-   data.save((err)=>{
-     if(!err){
-       console.log("success");
-     }else{
-       console.log(err)
-     }
-   })
+    if (!data.cart.total){
+      data.cart.total=0;
+    }
+    data.cart.total=parseInt(data.cart.total)+parseInt(req.body.price);
+  }else{
+    // Item already exist so increment quantity
+    console.log("Item already added to cart")
+    data.cart.total=parseInt(data.cart.total)+parseInt(req.body.price);
+console.log((data.cart.cartItem[index].quantity)++)
+    data.cart.cartItem[index].quantity=(data.cart.cartItem[index].quantity)++;
+    console.log(data.cart);
+
+  }
+  data.save((err)=>{
+    if(!err){
+      console.log("success");
+    }else{
+      console.log("fail")
+      console.log(err)
+    }
+  })
+
    }).then(()=>
    User.findById(req.user._id,(err,user)=>{
      if(!err){
-      res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem
+      res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem,total:user.cart.total
       })
      }else{
        console.log(err)

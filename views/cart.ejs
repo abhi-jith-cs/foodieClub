@@ -18,6 +18,7 @@
             </thead>
             <tbody>
               <%item.forEach(element => {%>
+               
                 <tr>
                   <td><%=item.indexOf(element)+1%></td>
                   <td><%=element.name%></td>
@@ -31,8 +32,9 @@
 
             </tbody>
           </table>
-          <p class="total">Total :123</p>
+          <p class="total">Total: <%= total %> ₹ </p>
           <div class="cart-btns">
+            
           <a href="/" class="btn btn-cart">Shop More</a>
           <a href="#" class="btn btn-cart">BUY</a>
         </div>
