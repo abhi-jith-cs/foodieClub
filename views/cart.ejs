@@ -1,6 +1,7 @@
 <%- include("partials/header")-%> 
 
 <div class="container cart-container">
+
     <div class="card text-center ">
         <div class="card-header">
           Cart
@@ -20,10 +21,15 @@
               <%item.forEach(element => {%>
                
                 <tr>
+                  <form action="/delete/<%=element._id%>" method="POST">
                   <td><%=item.indexOf(element)+1%></td>
                   <td><%=element.name%></td>
                   <td><%= element.quantity %> </td>
                   <td><%=element.price%></td>
+                  <input type="hidden" name="<%=element.name%> " value="<%=element._id %> ">
+                  <td> <button type="submit" class="btn">delete</button></td>
+                </form>
+
                 </tr>
                 <tr>
               <%});%>
@@ -43,7 +49,6 @@
           2 days ago
         </div>
       </div>
-
 </div>
 
 

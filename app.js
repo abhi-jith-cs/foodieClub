@@ -12,7 +12,6 @@ const fs = require('fs');
 
 
 
-
 const app = express();
 
 
@@ -243,7 +242,7 @@ app.get("/cart",(req,res)=>{
   if(req.isAuthenticated()){
     User.findById(req.user._id,(err,user)=>{
       if(!err){
-       res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem
+       res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem,total:user.cart.total
        })
       }else{
         console.log(err)
@@ -320,6 +319,41 @@ console.log((data.cart.cartItem[index].quantity)++)
     res.render("signin",{auth:req.isAuthenticated()})
   }
 })
+//delete
+app.post('/delete/:id', function(req, res){
+  console.log(req.params.id)
+  User.findById(req.user._id,(err,data)=>{
+    if(!err){
+      console.log(data.cart.cartItem);
+     const found= (data.cart.cartItem).findIndex((element)=>{
+        return element._id==req.params.id
+      })
+      console.log(found)
+      
+if (found > -1) {
+  (data.cart.cartItem).splice(found, 1);
+  data.save((err)=>{
+    if(!err){
+      console.log("success");
+    }else{
+      console.log("fail")
+      console.log(err)
+    }
+  })
+}
+
+}
+  }).then(()=>
+  User.findById(req.user._id,(err,user)=>{
+    if(!err){
+     res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem,total:user.cart.total
+     })
+    }else{
+      console.log(err)
+    }
+  })
+  )
+});
 
 
 // logout
