@@ -319,28 +319,46 @@ console.log((data.cart.cartItem[index].quantity)++)
     res.render("signin",{auth:req.isAuthenticated()})
   }
 })
+
 //delete
 app.post('/delete/:id', function(req, res){
-  console.log(req.params.id)
   User.findById(req.user._id,(err,data)=>{
     if(!err){
-      console.log(data.cart.cartItem);
-     const found= (data.cart.cartItem).findIndex((element)=>{
+     const index= (data.cart.cartItem).findIndex((element)=>{
         return element._id==req.params.id
       })
-      console.log(found)
-      
-if (found > -1) {
-  (data.cart.cartItem).splice(found, 1);
-  data.save((err)=>{
-    if(!err){
-      console.log("success");
-    }else{
-      console.log("fail")
-      console.log(err)
+
+      data.cart.total -= data.cart.cartItem[index].price;
+
+  if(data.cart.cartItem[index].quantity<=1){
+    //deleting enitre item from cart items
+    console.log("deleting entire item")
+    if (index > -1) {
+      (data.cart.cartItem).splice(index, 1);
+      data.save((err)=>{
+        if(!err){
+          console.log("success");
+        }else{
+          console.log("fail")
+          console.log(err)
+        }
+      })
     }
-  })
-}
+  }else{
+    //quantity decrement
+    console.log("updating quantity item")
+
+    data.cart.cartItem[index].quantity--;
+    data.save((err)=>{
+      if(!err){
+        console.log("success");
+      }else{
+        console.log("fail")
+        console.log(err)
+      }
+    })
+  }
+
 
 }
   }).then(()=>
