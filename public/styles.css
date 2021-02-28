@@ -176,6 +176,11 @@ color: var(--fourth);
     display: flex;
     justify-content: space-around;
 }
+.btn-trash{
+    color: var(--fourth);
+    border: 0;
+    background-color: var(--first);
+}
 
 /* table */
 .table{
@@ -192,6 +197,7 @@ color: var(--fourth);
 .account{
     height: 90%;
 }
+
 
 @media (min-width: 576px){
 .container {
