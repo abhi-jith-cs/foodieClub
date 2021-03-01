@@ -181,6 +181,27 @@ color: var(--fourth);
     border: 0;
     background-color: var(--first);
 }
+.quantity-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.icrement{
+    display: flex;
+    flex-direction: column;
+    height: 1.5em;
+    padding-left: .8em;
+    justify-content: space-around;
+
+}
+.btn-quantity{
+    padding: .06em;
+    color: var(--fourth);
+    background-color: var(--first);
+    border: 0;
+}
+
+
 
 /* table */
 .table{

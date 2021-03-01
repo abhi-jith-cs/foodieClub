@@ -374,6 +374,54 @@ app.post('/delete/:id', function(req, res){
 });
 
 
+
+//quantity increment
+app.post('/increment/:id', function(req, res){
+  User.findById(req.user._id,(err,data)=>{
+    if(!err){
+     const index= (data.cart.cartItem).findIndex((element)=>{
+        return element._id==req.params.id
+      })
+
+      data.cart.total +=Number(data.cart.cartItem[index].price);
+
+ 
+    //quantity decrement
+    console.log("updating quantity item")
+
+    data.cart.cartItem[index].quantity++;
+    data.save((err)=>{
+      if(!err){
+        console.log("success");
+      }else{
+        console.log("fail")
+        console.log(err)
+      }
+    })
+  
+
+
+}
+  }).then(()=>
+  User.findById(req.user._id,(err,user)=>{
+    if(!err){
+     res.render("cart",{auth:req.isAuthenticated(),item:user.cart.cartItem,total:user.cart.total
+     })
+    }else{
+      console.log(err)
+    }
+  })
+  )
+});
+
+
+
+
+
+
+
+
+
 // logout
 app.get('/logout', function(req, res){
   req.logout();
